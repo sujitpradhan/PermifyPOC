@@ -1,0 +1,7 @@
+{
+  "results": {
+    "viewFloorPrice": "CHECK_RESULT_DECLINE",
+    "viewCarFaxlink": "CHECK_RESULT_ALLOWED",
+    "viewAdditionalDisclouser": "CHECK_RESULT_ALLOWED"
+  }
+}
