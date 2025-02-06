@@ -13,7 +13,7 @@ public interface IAssetService
 public class AssetService(HttpClient httpClient) : IAssetService
 {
     
-    public async Task<string> RetrivePermission()
+    public async Task<string> RetrivePermission() //Entities and Object needs to be a specific type that we'll accept as a parameter here
     {
         var apiResponse = await MakeApiCallAsync();
         var vehicle = new Vehicle
@@ -28,9 +28,9 @@ public class AssetService(HttpClient httpClient) : IAssetService
     }
 
 
-    private static void ApplyPermissions(Vehicle vehicle, ApiResponse apiResponse) //replace with Object 
+    private static void ApplyPermissions(object model, ApiResponse apiResponse)
     {
-        var type = vehicle.GetType();
+        var type = model.GetType();
         
         foreach (var property in type.GetProperties())
         {
@@ -43,10 +43,10 @@ public class AssetService(HttpClient httpClient) : IAssetService
                 var permissionValue = apiResult switch
                 {
                     "CHECK_RESULT_DENIED" => "ACCESS_DENIED",
-                    "CHECK_RESULT_ALLOWED" => (string)property.GetValue(vehicle) ?? (string)property.GetValue(vehicle),
+                    "CHECK_RESULT_ALLOWED" => (string)property.GetValue(model) ?? (string)property.GetValue(model),
                     _ => "Undefined" 
                 };
-                property.SetValue(vehicle, permissionValue);
+                property.SetValue(model, permissionValue);
             }
         }
 
